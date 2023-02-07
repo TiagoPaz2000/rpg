@@ -1,0 +1,38 @@
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 250px auto;
+  grid-template-rows: 70px auto;
+
+  grid-template-areas:
+    'IF CH'
+    'FC CH';
+
+  height: 100vh;
+  min-width: 315px;
+}
+
+.fc {
+  grid-area: FC;
+  background-color: red;
+}
+
+.if {
+  display: flex;
+  grid-area: TF;
+  background-color: blue;
+}
+
+.ch {
+  grid-area: CH;
+  background-color: aqua;
+} */
