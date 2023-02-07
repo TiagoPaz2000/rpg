@@ -1,24 +1,28 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"
 import { getPokemons } from '../../services/getPokemon'
+import { getRequest } from "../../services/apiRequest"
 import './style.css'
 
 const InitialPage = ({ socket }) => {
   const navigate = useNavigate();
   const [pokemons, setPokemons] = useState([])
   const [initialPokemon, setInitialPokemon] = useState({})
-  const [username, setUsername] = useState('')
+  const user = 'mockuser'
 
   useEffect(() => {
+    getRequest('/pokemon').then(({ data: response }) => {
+        if (response.length) navigate(`/home/${user}`);
+      }).catch(err => console.log(err))
     getPokemons([1, 4, 7, 25]).then((response) => {
       setPokemons(response)
     })
-  }, [])
+  }, [navigate])
 
   const handleClick = () => {
-    if (username && initialPokemon.name) {
-      socket.emit('joined', { username, pokemonId: initialPokemon.id })
-      navigate(`/home/${username}`)
+    if (initialPokemon.name) {
+      socket.emit('joined', { pokemonId: initialPokemon.id })
+      navigate(`/home/${user}`)
     }
   }
 
@@ -30,11 +34,11 @@ const InitialPage = ({ socket }) => {
     <div className="container">
       <div className="content-box">
         {pokemons.map((pokemon) => (
-          <div className={`pokemon-card ${pokemon.types[0].type.name}`} style={{ backgroundColor: initialPokemon.name === pokemon.name ? 'white' : ''}} onClick={ () => setInitialPokemon(pokemon)}>
+          <div key={pokemon.id} className={`pokemon-card ${pokemon.types[0].type.name}`} style={{ backgroundColor: initialPokemon.name === pokemon.name ? 'white' : ''}} onClick={ () => setInitialPokemon(pokemon)}>
             <h3>{pokemon.name}</h3>
             <img src={pokemon.sprites.front_default} alt=""/>
-            <div className="ul-types">{pokemon.types.map(({ type }) => (
-              <span className={`li-type ${pokemon.types[0].type.name}`}>
+            <div className="ul-types">{pokemon.types.map(({ type, index }) => (
+              <span key={ type.name } className={`li-type ${pokemon.types[0].type.name}`}>
                 { type.name }
               </span>
             ))}</div>
@@ -42,7 +46,6 @@ const InitialPage = ({ socket }) => {
         )) }
       </div>
       <div className="input-box">
-        <input type="text" placeholder="username" onChange={ ({ target }) => setUsername(target.value) }/>
         <button onClick={ handleClick }>Join</button>
       </div>
     </div>

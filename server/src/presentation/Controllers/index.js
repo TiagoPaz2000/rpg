@@ -1,5 +1,7 @@
-const LoginController = require("./login.controller")
+const loginController = require("./login.controller")
+const listUserPokemonsController = require('./pokemon.controller')
 
 module.exports = {
-  LoginController,
+  loginController,
+  listUserPokemonsController,
 }

@@ -1,27 +1,35 @@
-import { Container } from "./style";
-import InputComponent from "../../components/input";
-import ButtonComponent from "../../components/button";
-import { useState } from "react";
+import { Container } from "./style"
+import InputComponent from "../../components/input"
+import ButtonComponent from "../../components/button"
+import { useState, useEffect } from "react"
 import { postRequest } from "../../services/apiRequest"
-
+import { useNavigate } from "react-router-dom"
 
 const Login = () => {
   const [user, setUser] = useState('')
   const [password, setPassword] = useState('')
+  const [loginError, setLoginError] = useState({})
   const [loginStatus, setLoginStatus] = useState({})
+  const navigate = useNavigate();
 
-  const handleSubmit = ({ user, password }) => {
-    postRequest('/signin', { user, password }, {})
-      .then((response) => {
+  const handleSubmit = () => {
+    postRequest('/login', { user, password }, {})
+      .then(({ data: response }) => {
         setLoginStatus(response)
-      }).catch(err => setLoginStatus({ error: err.message }))
+      }).catch(err => setLoginError({ err: err.data.message }))
   }
+
+  useEffect(() => {
+    if (loginStatus.user) {
+      navigate(`/initial/`);
+    }
+  }, [loginStatus, navigate]);
 
   return (
     <Container>
-      <InputComponent placeholder="user" onChange={ ({ target }) => setUser(target.value)} />
-      <InputComponent placeholder="password" onChange={ ({ target }) => setPassword(target.value)}/>
-      <ButtonComponent text="Login" onClick={ () => handleSubmit(user, password) } />
+      <InputComponent placeholder="user" handleChange={ ({ target }) => setUser(target.value)} />
+      <InputComponent placeholder="password" handleChange={ ({ target }) => setPassword(target.value)}/>
+      <ButtonComponent text="Login" handleClick={ handleSubmit } />
     </Container>
   )
 }

@@ -3,6 +3,6 @@ const Controller = require('../Controllers')
 
 const route = Router()
 
-route.post('/login', Controller.loginController)
+route.get('/pokemon', Controller.listUserPokemonsController)
 
 module.exports = route

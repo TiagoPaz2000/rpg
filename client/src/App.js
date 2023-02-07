@@ -6,12 +6,13 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import Home from './pages/home';
 
 function App() {
-  const socket = io.connect("http://localhost:4000");
+  const socket = io.connect("http://localhost:3001");
 
   return (
     <BrowserRouter>
       <Routes>
         <Route index element={<Login socket={socket} />} />
+        <Route path="/initial" element={<InitialPage socket={socket} />} />
         <Route path="/home/:name" element={<Home socket={socket} />} />
       </Routes>
     </BrowserRouter>

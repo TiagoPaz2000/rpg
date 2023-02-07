@@ -1,8 +1,8 @@
 import Input from "./style"
 
-const InputComponent = ({ placeholder }) => {
+const InputComponent = ({ placeholder, handleChange }) => {
   return (
-    <Input placeholder={placeholder}  />
+    <input placeholder={placeholder} onChange={handleChange} />
   )
 }
 

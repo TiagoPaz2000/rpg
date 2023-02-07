@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react"
 import { useLocation } from "react-router-dom";
-import { getPokemons } from "../../services/getPokemon";
+import { getRequest } from "../../services/apiRequest"
 import './style.css'
 
 const Home = ({ socket }) => {
@@ -14,9 +14,6 @@ const Home = ({ socket }) => {
 
   socket.on('userInfo', ({ user }) => {
     setUserMoney(user.money)
-    getPokemons(user.pokemons).then((response) => {
-      setPokemons(response)
-    })
   })
 
   const sendMessage = () => {
@@ -27,13 +24,18 @@ const Home = ({ socket }) => {
   useEffect(() => {
     socket.emit('retrieveImages', {})
     socket.on('getMessages', (messages) => {
+      console.log(messages)
       setMessages(messages)
     })
   }, [socket])
 
   useEffect(() => {
-    socket.emit('findUserInfo', { username })
-  }, [socket, username])
+    getRequest('/pokemon').then(({ data: response }) => {
+      console.log(response.data);
+      if (response.data.length) setPokemons(response.data)
+    })
+      .catch(err => console.log(err))
+  }, [])
 
   if (!pokemons.length) {
     return <div>loading...</div>
@@ -47,7 +49,7 @@ const Home = ({ socket }) => {
         <p>{userMoney} ¥</p>
         <div>
           {pokemons.map((pokemon) => (
-            <div>
+            <div key={ pokemon.id }>
               <span>{pokemon.name}</span>
             </div>
           ))}
@@ -60,7 +62,7 @@ const Home = ({ socket }) => {
         <h4>Chat: </h4>
         <div className="chat-messages">
           {messages.map((msg) => (
-            <div>
+            <div key={ msg.id }>
               <span>{msg.author}: </span>
               <span>{msg.message}</span>
             </div>

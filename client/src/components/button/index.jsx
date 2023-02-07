@@ -1,8 +1,8 @@
 import { Button } from "./style";
 
-const ButtonComponent = ({ text }) => {
+const ButtonComponent = ({ text, handleClick }) => {
   return (
-    <button type="button">{text}</button>
+    <button type="button" onClick={ handleClick }>{text}</button>
   )
 }
 
