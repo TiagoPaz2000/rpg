@@ -5,7 +5,7 @@ const verifyUserLogin = async (user, encryptedPass) => {
 
   if (password !== encryptedPass) return ({ err: 'User or Password incorrect' })
 
-  return ({ userWithoutPassword })
+  return userWithoutPassword 
 }
 
 module.exports = verifyUserLogin

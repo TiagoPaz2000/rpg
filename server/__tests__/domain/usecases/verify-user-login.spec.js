@@ -19,4 +19,13 @@ describe('Verify User Login', () => {
 
     expect(sut).toEqual({ err: 'User or Password incorrect' })
   })
+
+  it('Should return user entity without password', async () => {
+    jest.spyOn(userRepository, 'findByUser')
+      .mockResolvedValue({ user: 'user', password: 'password', email: 'email' })
+    
+    const sut = await verifyUserLogin('user', 'password')
+
+    expect(sut).toEqual({ user: 'user', email: 'email' })
+  })
 })
