@@ -22,11 +22,10 @@ const io = require('socket.io')(http, {
 
 const messages = []
 
-io.on('connection', (socket) => {
-  socket.on('retrieveImages', () => {
-    socket.emit('getMessages', (messages))
-  })
+const usecases = require('./domain/usecases')
 
+io.on('connection', (socket) => {
+  usecases.retrieveMessages(socket, messages)
   socket.on('disconnect', () => {
     socket.disconnect()
     console.log('🔥: A user disconnected');
