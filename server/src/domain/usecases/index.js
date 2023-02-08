@@ -2,6 +2,7 @@ const listUserPokemons = require('./list-pokemon')
 const retrieveMessages = require('./retrieve-messages')
 const sendMessage = require('./send-message')
 const { generateToken, verifyToken } = require('./token-methods')
+const verifyUserLogin = require('./verify-user-login')
 
 module.exports = {
   listUserPokemons,
@@ -9,4 +10,5 @@ module.exports = {
   sendMessage,
   generateToken,
   verifyToken,
+  verifyUserLogin,
 }
