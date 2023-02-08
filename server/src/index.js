@@ -26,30 +26,12 @@ const usecases = require('./domain/usecases')
 
 io.on('connection', (socket) => {
   usecases.retrieveMessages(socket, messages)
+  const msgId = String(Math.random() * 100)
+  usecases.sendMessage(socket, io, messages, msgId)
   socket.on('disconnect', () => {
     socket.disconnect()
     console.log('🔥: A user disconnected');
   });
-  
-  socket.on('joined', (data) => {
-    // const userExist = users.find(({ username }) => username === socket.username)
-    // if (!userExist) {
-    //   users.push({ username: data.username, pokemons: [data.pokemonId], money: 100 })
-    // }
-    console.log('joined')
-  })
-
-  socket.on('sendMessage', (data) => {
-    messages.push({ ...data, id: Date.now() + data.message })
-    io.emit('getMessages', (messages))
-  })
-  
-  socket.on('findUserInfo', (data) => {
-    // const user = users.find(({ username }) => username === data.username)
-
-    // socket.emit('userInfo', { user })
-    console.log('findUserInfo')
-  })
 });
 
 http.listen(PORT, () => {
