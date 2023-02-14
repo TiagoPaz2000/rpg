@@ -3,6 +3,7 @@ const retrieveMessages = require('./retrieve-messages')
 const sendMessage = require('./send-message')
 const { generateToken, verifyToken } = require('./token-methods')
 const verifyUserLogin = require('./verify-user-login')
+const { hash } = require('./bcrypt')
 
 module.exports = {
   listUserPokemons,
@@ -11,4 +12,5 @@ module.exports = {
   generateToken,
   verifyToken,
   verifyUserLogin,
+  hash,
 }
