@@ -2,7 +2,7 @@ import './App.css';
 import { io } from "socket.io-client";
 import InitialPage from './pages/initial/Initial';
 import Login from './pages/Login';
-import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Home from './pages/home';
 
 function App() {
